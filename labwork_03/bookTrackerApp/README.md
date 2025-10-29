@@ -1,23 +1,35 @@
+Book Tracker App 📚
+
+A cross-platform React Native app built with Expo, allowing users to track books, take notes, and manage reading progress. Uses Firebase for authentication and database.
+
 Setup
-
 1. Clone the repo
-
 git clone https://github.com/KedarKandel/building-deploying_cross_platfrom_apps/tree/main/labwork_03/bookTrackerApp
 cd book-tracker-app
 
-
 2. Install dependencies
-
-npm install
-# or
-yarn install
+npm install /or/ yarn install
 
 
 3. Configure Firebase
 
-- Create a Firebase project, enable Email/Password Auth and Cloud Firestore.
+Create a Firebase project, enable Email/Password Authentication and Cloud Firestore.
 
-- Add your Firebase credentials to a .env file (see firebase/config.ts for usage).
+Create a .env file in the project root:
+
+FIREBASE_API_KEY=your-api-key
+FIREBASE_AUTH_DOMAIN=your-auth-domain
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_STORAGE_BUCKET=your-storage-bucket
+FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+FIREBASE_APP_ID=your-app-id
+FIREBASE_MEASUREMENT_ID=your-measurement-id
+
+Update firebase/config.ts to use environment variables:
+
+
+* 
+// firebase/config.ts file
 import { initializeApp, getApps } from 'firebase/app';
 import { initializeAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
@@ -35,7 +47,6 @@ import {
   FIREBASE_MEASUREMENT_ID,
 } from '@env';
 
-// Firebase config
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
@@ -64,44 +75,23 @@ export function getFirebaseAuth() {
 // Firestore instance
 export const db = getFirestore(app);
 export { app };
-
+* 
 
 
 4. Run the app
+npx expo start
 
-- npx expo start
 
+Open on Android/iOS simulator, Expo Go, or web browser.
 
-5. Open on Android/iOS simulator, Expo Go, or web browser.
+Features
 
-#  Features
+Welcome screen → Login/Register → Home
 
-- Welcome screen → Login/Register → Home
+Firebase authentication (email/password)
 
-- Firebase authentication (email/password)
+Add, view, and delete books
 
-- Add, view, and delete books listed
+Book details page
 
-- Book details page
-
-- User profile and contact page
-
-Project Structure
-app/
- ├─ index.tsx 
- └─ contact.tsx      # Home / Welcome page
- ├─ login.tsx
- ├─ register.tsx
- ├─ add-book.tsx
- ├─ book/[id].tsx
- ├─ profile.tsx
- └─ profile.tsx
- 
-components/
- └─ BookItem.tsx
- └─ Loading.tsx
-context/
- └─ AuthContext.tsx
-firebase/
- └─ config.ts
- ........
+User profile and contact page
