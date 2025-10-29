@@ -48,15 +48,7 @@ export { app };
 
 
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDI6GgROYWKZ_aZiYcyKTaQHE8oH53XAWM",
-//   authDomain: "booktrackerapp-a2d58.firebaseapp.com",
-//   projectId: "booktrackerapp-a2d58",
-//   storageBucket: "booktrackerapp-a2d58.firebasestorage.app",
-//   messagingSenderId: "305384505173",
-//   appId: "1:305384505173:web:688edd008fcbdaf70af9dc",
-//   measurementId: "G-ER2CE3RQ2Y"
-// };
+
 
 
 

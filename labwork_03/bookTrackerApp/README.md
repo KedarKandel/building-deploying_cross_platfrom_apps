@@ -1,50 +1,107 @@
-# Welcome to your Expo app 👋
+Setup
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+1. Clone the repo
 
-## Get started
+git clone https://github.com/KedarKandel/building-deploying_cross_platfrom_apps/tree/main/labwork_03/bookTrackerApp
+cd book-tracker-app
 
-1. Install dependencies
 
-   ```bash
-   npm install
-   ```
+2. Install dependencies
 
-2. Start the app
+npm install
+# or
+yarn install
 
-   ```bash
-   npx expo start
-   ```
 
-In the output, you'll find options to open the app in a
+3. Configure Firebase
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Create a Firebase project, enable Email/Password Auth and Cloud Firestore.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Add your Firebase credentials to a .env file (see firebase/config.ts for usage).
+import { initializeApp, getApps } from 'firebase/app';
+import { initializeAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as firebaseAuth from 'firebase/auth';
+const reactNativePersistence = (firebaseAuth as any).getReactNativePersistence;
 
-## Get a fresh project
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+  FIREBASE_MEASUREMENT_ID,
+} from '@env';
 
-When you're ready, run:
+// Firebase config
+const firebaseConfig = {
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
+  measurementId: FIREBASE_MEASUREMENT_ID,
+};
 
-```bash
-npm run reset-project
-```
+// Initialize Firebase App once
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+// Cache Auth instance globally
+let _auth: ReturnType<typeof initializeAuth> | null = null;
 
-## Learn more
+export function getFirebaseAuth() {
+  if (!_auth) {
+    _auth = initializeAuth(app, {
+      persistence: reactNativePersistence(AsyncStorage),
+    });
+  }
+  return _auth;
+}
 
-To learn more about developing your project with Expo, look at the following resources:
+// Firestore instance
+export const db = getFirestore(app);
+export { app };
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
 
-Join our community of developers creating universal apps.
+4. Run the app
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- npx expo start
+
+
+5. Open on Android/iOS simulator, Expo Go, or web browser.
+
+#  Features
+
+- Welcome screen → Login/Register → Home
+
+- Firebase authentication (email/password)
+
+- Add, view, and delete books listed
+
+- Book details page
+
+- User profile and contact page
+
+Project Structure
+app/
+ ├─ index.tsx 
+ └─ contact.tsx      # Home / Welcome page
+ ├─ login.tsx
+ ├─ register.tsx
+ ├─ add-book.tsx
+ ├─ book/[id].tsx
+ ├─ profile.tsx
+ └─ profile.tsx
+ 
+components/
+ └─ BookItem.tsx
+ └─ Loading.tsx
+context/
+ └─ AuthContext.tsx
+firebase/
+ └─ config.ts
+ ........
